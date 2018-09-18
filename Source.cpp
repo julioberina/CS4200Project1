@@ -2,6 +2,9 @@
 #include <limits>
 using namespace std;
 
+void random8Puzzle();
+void Input8Puzzle();
+
 int main()
 {
   int choice = 0;
