@@ -6,6 +6,7 @@
 using namespace std;
 
 bool validatePuzzleInput(string puzzle);
+bool validatePuzzleSolvable(string puzzle);
 
 int main()
 {
@@ -49,6 +50,9 @@ int main()
       do {
         cout << "Enter puzzle:  ";
         getline(cin, puzzle);
+        puzzle.erase(remove_if(puzzle.begin(), puzzle.end(),
+                              [](unsigned char x){return isspace(x);}),
+                              puzzle.end()); // Get rid of whitespace
       } while (validatePuzzleInput(puzzle) == false);
 
       cout << "Puzzle is good" << endl;
@@ -80,4 +84,9 @@ bool validatePuzzleInput(string puzzle)
   }
 
   return true;
+}
+
+bool validatePuzzleSolvable(string puzzle)
+{
+
 }
