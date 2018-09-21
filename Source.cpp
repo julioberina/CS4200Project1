@@ -6,7 +6,7 @@
 using namespace std;
 
 bool validatePuzzleInput(string puzzle);
-bool validatePuzzleSolvable(string puzzle);
+bool isPuzzleSolvable(string puzzle);
 
 int main()
 {
@@ -55,7 +55,10 @@ int main()
                               puzzle.end()); // Get rid of whitespace
       } while (validatePuzzleInput(puzzle) == false);
 
-      cout << "Puzzle is good" << endl;
+      if (isPuzzleSolvable(puzzle))
+        cout << "Solvable" << endl;
+      else
+        cout << "Cannot solve puzzle" << endl;
     break;
 
     case 3:
@@ -83,10 +86,20 @@ bool validatePuzzleInput(string puzzle)
     }
   }
 
+  cout << endl;
   return true;
 }
 
-bool validatePuzzleSolvable(string puzzle)
+bool isPuzzleSolvable(string puzzle)
 {
+  int inversions = 0;
 
+  int inv_count = 0;
+  for (int i = 0; i < 8; ++i)
+  {
+    for (int j = i + 1; j < 9; ++j)
+      if (puzzle[j] != '0' && puzzle[i] != '0' && puzzle[i] > puzzle[j])  ++inversions;
+  }
+
+  return (inversions % 2 == 0);
 }
