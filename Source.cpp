@@ -1,10 +1,16 @@
 #include <iostream>
 #include <limits>
+#include <string>
+#include <algorithm>
+#include <cctype>
 using namespace std;
+
+bool validatePuzzleInput(string puzzle);
 
 int main()
 {
   int choice = 0;
+  string puzzle = "";
 
   cout << "Welcome to the 8-Puzzle Program!" << endl << endl;
   cout << "Please choose from the options below:" << endl << endl;
@@ -27,20 +33,51 @@ int main()
       cout << "Input must be 1, 2, or 3" << endl << endl;
   }
 
+  // Clear input stream
+  cin.clear();
+  cin.ignore(numeric_limits<int>::max(), '\n');
+
   switch (choice)
   {
     case 1:
-      cout << "You chose to generate a puzzle" << endl;
+      cout << "You chose to generate a puzzle" << endl << endl;
     break;
 
     case 2:
-      cout << "You want to input a puzzle" << endl;
+      cout << "You want to input a puzzle" << endl << endl;
+
+      do {
+        cout << "Enter puzzle:  ";
+        getline(cin, puzzle);
+      } while (validatePuzzleInput(puzzle) == false);
+
+      cout << "Puzzle is good" << endl;
     break;
 
     case 3:
     default:
+      return 0;
     break;
   }
 
   return 0;
+}
+
+bool validatePuzzleInput(string puzzle)
+{
+  if (puzzle.size() != 9)
+  {
+    cout << "Puzzle must be of size 9!" << endl << endl;
+    return false;
+  }
+  for (int i = 0; i < 9; ++i)
+  {
+    if (puzzle.find(to_string(i)) == string::npos)
+    {
+      cout << "Puzzle must contain unique values 0-9" << endl << endl;
+      return false;
+    }
+  }
+
+  return true;
 }
