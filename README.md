@@ -12,3 +12,6 @@ run `make`
 
 To run program:
 run `./Project1`
+
+TODO
+* Create StateNode for predecessor instead of string
