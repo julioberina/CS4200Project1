@@ -60,6 +60,8 @@ int main()
       {
         Board board(puzzle);
         AStar astar;
+        astar.solveH1(board);
+        cout << endl << "---------------------------------------" << endl << endl;
         astar.solveH2(board);
       }
       else
@@ -106,6 +108,5 @@ bool isPuzzleSolvable(string puzzle)
       if (puzzle[j] != '0' && puzzle[i] != '0' && puzzle[i] > puzzle[j])  ++inversions;
   }
 
-  cout << "Inversions:  " << inversions << endl;
   return (inversions % 2 == 0);
 }

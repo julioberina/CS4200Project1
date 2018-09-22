@@ -20,10 +20,7 @@ private:
   bool isValidMove(int direction, int& index);
   string makeMove(string& tempstr, int src, int dest);
 public:
-  Board(string initState) : currentState(initState), prevState("") {
-    cout << "currentState: " << currentState << endl;
-    depth = 0;
-  }
+  Board(string initState) : currentState(initState), prevState("") { depth = 0; }
   int hamming() const;
   int manhattan() const;
   string getState() const { return currentState; }
