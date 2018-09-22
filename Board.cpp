@@ -51,6 +51,7 @@ vector<Board> Board::successors()
     {
       Board board(tempState);
       board.setPredecessor(currentState);
+      board.setDepth(depth + 1);
       children.push_back(board);
     }
   }

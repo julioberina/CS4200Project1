@@ -14,6 +14,7 @@ class Board
 private:
   string prevState;
   string currentState;
+  int depth;
 
   // Helper functions
   bool isValidMove(int direction, int& index);
@@ -21,11 +22,14 @@ private:
 public:
   Board(string initState) : currentState(initState), prevState("") {
     cout << "currentState: " << currentState << endl;
+    depth = 0;
   }
   int hamming() const;
   int manhattan() const;
   string getState() const { return currentState; }
   vector<Board> successors();
+  void setDepth(int d) { depth = d; }
+  int getDepth() { return depth; }
   void setPredecessor(string& pre) { prevState = pre; }
   string predecessor() { return prevState; }
   bool isGoal() const { return currentState == goalState; }
