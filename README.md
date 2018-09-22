@@ -15,3 +15,4 @@ run `./Project1`
 
 TODO
 * Create StateNode for predecessor instead of string
+* Start generating random puzzles and solve those
