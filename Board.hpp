@@ -15,13 +15,13 @@ private:
 
   // Helper functions
   bool isValidMove(int direction);
-  string makeMove(string tempstr, int src, int dest);
+  string makeMove(string& tempstr, int src, int dest);
 public:
   Board(string initState) : prevBoard(NULL) { currentState = initState; }
   int hamming() const;
   int manhattan() const;
   string getState() const { return currentState; }
   vector<Board> successors();
-  void setPredecessor(Board& board) { prevBoard = board; }
+  void setPredecessor(const Board& board) { prevBoard = board; }
   const Board& predecessor() { return prevBoard; }
 };

@@ -101,7 +101,7 @@ bool isValidMove(int direction, int& ind)
   return false;
 }
 
-string makeMove(string tempstr, int src, int dest)
+string makeMove(string& tempstr, int src, int dest)
 {
   char temp = tempstr[src];
   tempstr[src] = tempstr[dest];
