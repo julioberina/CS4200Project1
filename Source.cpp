@@ -60,7 +60,7 @@ int main()
       {
         Board board(puzzle);
         AStar astar;
-        astar.solveH1(board);
+        astar.solveH2(board);
       }
       else
         cout << "Cannot solve puzzle" << endl;

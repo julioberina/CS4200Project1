@@ -20,8 +20,7 @@ private:
   string makeMove(string& tempstr, int src, int dest);
 public:
   Board(string initState) : currentState(initState), prevState("") {
-    cout << "currentState: " << currentState << " ";
-    cout << "prevState: " << prevState << endl;
+    cout << "currentState: " << currentState << endl;
   }
   int hamming() const;
   int manhattan() const;

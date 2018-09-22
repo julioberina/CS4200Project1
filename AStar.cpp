@@ -2,6 +2,9 @@
 
 void AStar::solveH1(Board& initial)
 {
+  globalDepth = 0;
+  cost = 0;
+
   priority_queue<Board, vector<Board>, compareH1> pq;
   pq.push(initial);
 
@@ -11,6 +14,9 @@ void AStar::solveH1(Board& initial)
 
 void AStar::solveH2(Board& initial)
 {
+  globalDepth = 0;
+  cost = 0;
+
   priority_queue<Board, vector<Board>, compareH2> pq;
   pq.push(initial);
 
@@ -24,15 +30,17 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, int curr
   if (pq.empty()) return false;
   globalDepth = currentDepth;
   ++cost;
-  cout << "d = " << currentDepth << ", search cost = " << cost << ", ";
+  cout << "d = " << currentDepth << ", search cost = " << cost << endl;
 
   Board puzzle = pq.top();
+  cout << puzzle << endl;
   pq.pop();
 
-  cout << puzzle << endl;
-
   if (puzzle.isGoal())
+  {
+    cout << "Puzzle solved!" << endl;
     return true;
+  }
 
   for (Board& succ: puzzle.successors())
     pq.push(succ);
@@ -45,15 +53,17 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, int curr
   if (pq.empty()) return false;
   globalDepth = currentDepth;
   ++cost;
-  cout << "d = " << currentDepth << ", search cost = " << cost << ", ";
+  cout << "d = " << currentDepth << ", search cost = " << cost << endl;
 
   Board puzzle = pq.top();
+  cout << puzzle << endl;
   pq.pop();
 
-  cout << puzzle << endl;
-
   if (puzzle.isGoal())
+  {
+    cout << "Puzzle solved!" << endl;
     return true;
+  }
 
   for (Board& succ: puzzle.successors())
     pq.push(succ);

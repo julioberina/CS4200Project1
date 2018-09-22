@@ -29,7 +29,7 @@ private:
   bool search(priority_queue<Board, vector<Board>, compareH1>& pq, int currentDepth);
   bool search(priority_queue<Board, vector<Board>, compareH2>& pq, int currentDepth);
 public:
-  AStar() { cost = 0; }
+  AStar() { cost = 0; globalDepth = 0; }
   void solveH1(Board& initial); // Solve using Hamming
   void solveH2(Board& initial); // Solve using Manhattan
 };

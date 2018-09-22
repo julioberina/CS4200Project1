@@ -114,7 +114,7 @@ ostream& operator<<(ostream& outs, const Board& board)
   for (int i = 0; i < 9; ++i)
   {
     if (i % 3 == 2)
-      outs << board.getState()[i];
+      outs << board.getState()[i] << endl;
     else
       outs << board.getState()[i] << " ";
   }
