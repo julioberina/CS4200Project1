@@ -39,5 +39,72 @@ int Board::manhattan() const
 
 vector<Board> Board::successors()
 {
+  int currentZeroIndex = currentState.find('0');
+  int zeroIndex = 0;
+  vector<Board> children;
 
+  for (int i = 0; i < 4; ++i) // go in all directions
+  {
+    string tempState(currentState);
+
+    if (isValidMove(i, zeroIndex) && makeMove(tempState, currentZeroIndex, zeroIndex) != prevBoard.getState())
+    {
+      Board board(tempState);
+      board.setPredecessor(this);
+      children.push_back(board);
+    }
+  }
+
+  return children;
+}
+
+// Helper function implementations
+bool isValidMove(int direction, int& ind)
+{
+  int zeroIndex = currentState.find('0');
+
+  switch (direction)
+  {
+    case UP:
+    if (zeroIndex / 3 - 1 >= 0)
+    {
+      ind = zeroIndex - 3;
+      return true;
+    }
+    break;
+
+    case DOWN:
+    if (zeroIndex / 3 + 1 < 3)
+    {
+      ind = zeroIndex + 3;
+      return true;
+    }
+    break;
+
+    case LEFT:
+    if (zeroIndex % 3 - 1 >= 0)
+    {
+      ind = zeroIndex - 1;
+      return true;
+    }
+    break;
+
+    case RIGHT:
+    if (zeroIndex % 3 + 1 < 3)
+    {
+      ind = zeroIndex + 1;
+      return true;
+    }
+    break;
+  }
+
+  return false;
+}
+
+string makeMove(string tempstr, int src, int dest)
+{
+  char temp = tempstr[src];
+  tempstr[src] = tempstr[dest];
+  tempstr[dest] = temp;
+  return tempstr;
 }
