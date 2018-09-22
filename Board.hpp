@@ -24,4 +24,5 @@ public:
   vector<Board> successors();
   void setPredecessor(const Board& board) { prevBoard = board; }
   const Board& predecessor() { return prevBoard; }
+  bool isGoal() { return currentState == goalState; }
 };
