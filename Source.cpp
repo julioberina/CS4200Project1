@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include "AStar.hpp"
 using namespace std;
 
 bool validatePuzzleInput(string puzzle);
@@ -56,7 +57,11 @@ int main()
       } while (validatePuzzleInput(puzzle) == false);
 
       if (isPuzzleSolvable(puzzle))
-        cout << "Solvable" << endl;
+      {
+        Board board(puzzle);
+        AStar astar;
+        astar.solveH1(board);
+      }
       else
         cout << "Cannot solve puzzle" << endl;
     break;
@@ -101,5 +106,6 @@ bool isPuzzleSolvable(string puzzle)
       if (puzzle[j] != '0' && puzzle[i] != '0' && puzzle[i] > puzzle[j])  ++inversions;
   }
 
+  cout << "Inversions:  " << inversions << endl;
   return (inversions % 2 == 0);
 }

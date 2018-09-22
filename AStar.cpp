@@ -1,6 +1,6 @@
 #include "AStar.hpp"
 
-void AStar::solveH1()
+void AStar::solveH1(Board& initial)
 {
   priority_queue<Board, vector<Board>, compareH1> pq;
   pq.push(initial);
@@ -9,7 +9,7 @@ void AStar::solveH1()
     cout << "H1 Done..." << endl;
 }
 
-void AStar::solveH2()
+void AStar::solveH2(Board& initial)
 {
   priority_queue<Board, vector<Board>, compareH2> pq;
   pq.push(initial);
