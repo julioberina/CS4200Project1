@@ -31,7 +31,7 @@ int Board::manhattan() const
       result += abs((i%3) - (goalIndex%3)); // add abs value of col difference
     }
 
-    ++index
+    ++index;
   }
 
   return result;
@@ -47,10 +47,10 @@ vector<Board> Board::successors()
   {
     string tempState(currentState);
 
-    if (isValidMove(i, zeroIndex) && makeMove(tempState, currentZeroIndex, zeroIndex) != prevBoard.getState())
+    if (isValidMove(i, zeroIndex) && makeMove(tempState, currentZeroIndex, zeroIndex) != prevState)
     {
       Board board(tempState);
-      board.setPredecessor(this);
+      board.setPredecessor(currentState);
       children.push_back(board);
     }
   }
@@ -59,13 +59,13 @@ vector<Board> Board::successors()
 }
 
 // Helper function implementations
-bool isValidMove(int direction, int& ind)
+bool Board::isValidMove(int direction, int& ind)
 {
   int zeroIndex = currentState.find('0');
 
   switch (direction)
   {
-    case UP:
+    case 0:
     if (zeroIndex / 3 - 1 >= 0)
     {
       ind = zeroIndex - 3;
@@ -73,7 +73,7 @@ bool isValidMove(int direction, int& ind)
     }
     break;
 
-    case DOWN:
+    case 1:
     if (zeroIndex / 3 + 1 < 3)
     {
       ind = zeroIndex + 3;
@@ -81,7 +81,7 @@ bool isValidMove(int direction, int& ind)
     }
     break;
 
-    case LEFT:
+    case 2:
     if (zeroIndex % 3 - 1 >= 0)
     {
       ind = zeroIndex - 1;
@@ -89,7 +89,7 @@ bool isValidMove(int direction, int& ind)
     }
     break;
 
-    case RIGHT:
+    case 3:
     if (zeroIndex % 3 + 1 < 3)
     {
       ind = zeroIndex + 1;
@@ -101,10 +101,23 @@ bool isValidMove(int direction, int& ind)
   return false;
 }
 
-string makeMove(string& tempstr, int src, int dest)
+string Board::makeMove(string& tempstr, int src, int dest)
 {
   char temp = tempstr[src];
   tempstr[src] = tempstr[dest];
   tempstr[dest] = temp;
   return tempstr;
+}
+
+ostream& operator<<(ostream& outs, const Board& board)
+{
+  for (int i = 0; i < 9; ++i)
+  {
+    if (i % 3 == 2)
+      outs << board.getState()[i];
+    else
+      outs << board.getState()[i] << " ";
+  }
+
+  return outs;
 }

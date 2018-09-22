@@ -1,4 +1,5 @@
-# pragma once
+#ifndef BOARD_HPP
+#define BOARD_HPP
 #include <string>
 #include <cstddef>
 #include <vector>
@@ -6,38 +7,27 @@
 #include <iostream>
 using namespace std;
 
+const string goalState = "012345678";
+
 class Board
 {
 private:
-  enum { UP, DOWN, LEFT, RIGHT };
-  const static string goalState = "012345678";
-  Board prevBoard;
+  string prevState;
   string currentState;
 
   // Helper functions
-  bool isValidMove(int direction);
+  bool isValidMove(int direction, int& index);
   string makeMove(string& tempstr, int src, int dest);
 public:
-  Board(string initState) : prevBoard(NULL) { currentState = initState; }
+  Board(string initState) : prevState("") { currentState = initState; }
   int hamming() const;
   int manhattan() const;
   string getState() const { return currentState; }
   vector<Board> successors();
-  void setPredecessor(const Board& board) { prevBoard = board; }
-  const Board& predecessor() { return prevBoard; }
-  bool isGoal() { return currentState == goalState; }
-  // friend ostream& operator<<(ostream& outs, const Board& other);
+  void setPredecessor(string& pre) { prevState = pre; }
+  string predecessor() { return prevState; }
+  bool isGoal() const { return currentState == goalState; }
+  friend ostream& operator<<(ostream& outs, const Board& other);
 };
 
-ostream& operator<<(ostream& outs, const Board& board)
-{
-  for (int i = 0; i < 9; ++i)
-  {
-    if (i % 3 == 2)
-      outs << board.getState()[i];
-    else
-      outs << board.getState()[i] << " ";
-  }
-
-  return outs;
-}
+#endif
