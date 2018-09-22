@@ -1,6 +1,7 @@
 # pragma once
 #include <queue>
 #include <cstddef>
+#include <iostream>
 #include "Board.hpp"
 using namespace std;
 

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <vector>
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 class Board
@@ -25,4 +26,18 @@ public:
   void setPredecessor(const Board& board) { prevBoard = board; }
   const Board& predecessor() { return prevBoard; }
   bool isGoal() { return currentState == goalState; }
+  // friend ostream& operator<<(ostream& outs, const Board& other);
 };
+
+ostream& operator<<(ostream& outs, const Board& board)
+{
+  for (int i = 0; i < 9; ++i)
+  {
+    if (i % 3 == 2)
+      outs << board.getState()[i];
+    else
+      outs << board.getState()[i] << " ";
+  }
+
+  return outs;
+}
