@@ -26,7 +26,7 @@ public:
   string getState() const { return currentState; }
   vector<Board> successors();
   void setDepth(int d) { depth = d; }
-  int getDepth() { return depth; }
+  int getDepth() const { return depth; }
   void setPredecessor(string& pre) { prevState = pre; }
   string predecessor() { return prevState; }
   bool isGoal() const { return currentState == goalState; }

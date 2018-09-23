@@ -2,7 +2,6 @@
 
 void AStar::solveH1(Board& initial)
 {
-  globalDepth = 0;
   cost = 0;
 
   priority_queue<Board, vector<Board>, compareH1> pq;
@@ -15,7 +14,6 @@ void AStar::solveH1(Board& initial)
 
 void AStar::solveH2(Board& initial)
 {
-  globalDepth = 0;
   cost = 0;
 
   priority_queue<Board, vector<Board>, compareH2> pq;
@@ -33,7 +31,6 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
   ++cost;
 
   Board puzzle = pq.top();
-  globalDepth = puzzle.getDepth();
   pq.pop();
 
   try {
@@ -80,7 +77,6 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
   ++cost;
 
   Board puzzle = pq.top();
-  globalDepth = puzzle.getDepth();
   pq.pop();
 
   try {
