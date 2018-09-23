@@ -6,9 +6,10 @@ void AStar::solveH1(Board& initial)
   cost = 0;
 
   priority_queue<Board, vector<Board>, compareH1> pq;
+  unordered_map<int, vector<Board>> states;
   pq.push(initial);
 
-  if (search(pq))
+  if (search(pq, states))
     cout << "H1 Done..." << endl;
 }
 
@@ -18,23 +19,33 @@ void AStar::solveH2(Board& initial)
   cost = 0;
 
   priority_queue<Board, vector<Board>, compareH2> pq;
+  unordered_map<int, vector<Board>> states;
   pq.push(initial);
 
-  if (search(pq))
+  if (search(pq, states))
     cout << "H2 Done..." << endl;
 }
 
 // Search methods
-bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq)
+bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um)
 {
   if (pq.empty()) return false;
   ++cost;
 
   Board puzzle = pq.top();
   globalDepth = puzzle.getDepth();
-  cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
-  cout << puzzle << endl;
   pq.pop();
+
+  try {
+    um[puzzle.getDepth()].push_back(puzzle);
+  }
+  catch (const out_of_range& oor) {
+    vector<Board> vb;
+    vb.push_back(puzzle);
+    um[puzzle.getDepth()] = vb;
+  }
+  // cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
+  // cout << puzzle << endl;
 
   if (puzzle.isGoal())
   {
@@ -45,19 +56,28 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq)
   for (Board& succ: puzzle.successors())
     pq.push(succ);
 
-  return (search(pq)) ? true : false;
+  return (search(pq, um)) ? true : false;
 }
 
-bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq)
+bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um)
 {
   if (pq.empty()) return false;
   ++cost;
 
   Board puzzle = pq.top();
   globalDepth = puzzle.getDepth();
-  cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
-  cout << puzzle << endl;
   pq.pop();
+
+  try {
+    um[puzzle.getDepth()].push_back(puzzle);
+  }
+  catch (const out_of_range& oor) {
+    vector<Board> vb;
+    vb.push_back(puzzle);
+    um[puzzle.getDepth()] = vb;
+  }
+  // cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
+  // cout << puzzle << endl;
 
   if (puzzle.isGoal())
   {
@@ -68,5 +88,5 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq)
   for (Board& succ: puzzle.successors())
     pq.push(succ);
 
-  return (search(pq)) ? true : false;
+  return (search(pq, um)) ? true : false;
 }

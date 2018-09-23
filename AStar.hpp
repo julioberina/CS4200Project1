@@ -1,6 +1,8 @@
 #ifndef ASTAR_HPP
 #define ASTAR_HPP
 #include <queue>
+#include <unordered_map>
+#include <stdexcept>
 #include "Board.hpp"
 using namespace std;
 
@@ -26,8 +28,8 @@ private:
   };
 
   int cost;
-  bool search(priority_queue<Board, vector<Board>, compareH1>& pq);
-  bool search(priority_queue<Board, vector<Board>, compareH2>& pq);
+  bool search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um);
+  bool search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um);
 public:
   AStar() { cost = 0; globalDepth = 0; }
   void solveH1(Board& initial); // Solve using Hamming
