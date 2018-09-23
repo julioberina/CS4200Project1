@@ -36,6 +36,7 @@ public:
   void solveH1(Board& initial); // Solve using Hamming
   void solveH2(Board& initial); // Solve using Manhattan
   int getSolutionDepth() { return solDepth; }
+  int getSearchCost() { return cost; }
 };
 
 #endif
