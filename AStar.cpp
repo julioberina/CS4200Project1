@@ -10,7 +10,7 @@ void AStar::solveH1(Board& initial)
   pq.push(initial);
 
   if (search(pq, states))
-    cout << "search cost = " << cost << endl;
+    cout << "H1 (Hamming) search cost = " << cost << endl;
 }
 
 void AStar::solveH2(Board& initial)
@@ -23,7 +23,7 @@ void AStar::solveH2(Board& initial)
   pq.push(initial);
 
   if (search(pq, states))
-    cout << "search cost = " << cost << endl;
+    cout << "H2 (Manhattan) search cost = " << cost << endl;
 }
 
 // Search methods

@@ -61,7 +61,7 @@ int main()
         Board board(puzzle);
         AStar astar;
         astar.solveH1(board);
-        cout << endl << "---------------------------------------" << endl << endl;
+        cout << endl << "---------------------------------------------------------------" << endl << endl;
         astar.solveH2(board);
       }
       else
