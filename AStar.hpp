@@ -3,6 +3,7 @@
 #include <queue>
 #include <unordered_map>
 #include <stdexcept>
+#include <unordered_set>
 #include "Board.hpp"
 using namespace std;
 
@@ -26,10 +27,11 @@ class AStar
 {
 private:
   int cost;
-  bool search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um);
-  bool search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um);
+  unordered_set<string> vs; // visited
+  void search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um);
+  void search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um);
 public:
-  AStar() { cost = 0; }
+  AStar() : vs() { cost = 0; }
   void solveH1(Board& initial); // Solve using Hamming
   void solveH2(Board& initial); // Solve using Manhattan
 };

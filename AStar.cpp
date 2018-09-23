@@ -8,8 +8,8 @@ void AStar::solveH1(Board& initial)
   unordered_map<int, vector<Board>> states;
   pq.push(initial);
 
-  if (search(pq, states))
-    cout << "H1 (Hamming) search cost = " << cost << endl;
+  search(pq, states);
+  cout << "H1 (Hamming) search cost = " << cost << endl;
 }
 
 void AStar::solveH2(Board& initial)
@@ -20,14 +20,14 @@ void AStar::solveH2(Board& initial)
   unordered_map<int, vector<Board>> states;
   pq.push(initial);
 
-  if (search(pq, states))
-    cout << "H2 (Manhattan) search cost = " << cost << endl;
+  search(pq, states);
+  cout << "H2 (Manhattan) search cost = " << cost << endl;
 }
 
 // Search methods
-bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um)
+void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um)
 {
-  if (pq.empty()) return false;
+  if (pq.empty()) return;
   ++cost;
 
   Board puzzle = pq.top();
@@ -62,18 +62,26 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
 
     cout << optimalPath << endl << endl;
     cout << "d = " << puzzle.getDepth() << ", ";
-    return true;
+    return;
   }
 
-  for (Board& succ: puzzle.successors())
-    pq.push(succ);
+  cout << "d = " << puzzle.getDepth() << ", ";
+  cout << "cost = " << cost << ", ";
+  cout << "config = " << puzzle.getState() << endl;
 
-  return (search(pq, um)) ? true : false;
+  for (Board& succ: puzzle.successors())
+  {
+    if (vs.find(succ.getState()) == vs.end()) // if not visited
+      pq.push(succ);
+  }
+
+  vs.insert(puzzle.getState());
+  search(pq, um);
 }
 
-bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um)
+void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um)
 {
-  if (pq.empty()) return false;
+  if (pq.empty()) return;
   ++cost;
 
   Board puzzle = pq.top();
@@ -108,11 +116,19 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
 
     cout << optimalPath << endl << endl;
     cout << "d = " << puzzle.getDepth() << ", ";
-    return true;
+    return;
   }
 
-  for (Board& succ: puzzle.successors())
-    pq.push(succ);
+  cout << "d = " << puzzle.getDepth() << ", ";
+  cout << "cost = " << cost << ", ";
+  cout << "config = " << puzzle.getState() << endl;
 
-  return (search(pq, um)) ? true : false;
+  for (Board& succ: puzzle.successors())
+  {
+    if (vs.find(succ.getState()) == vs.end())
+      pq.push(succ);
+  }
+
+  vs.insert(puzzle.getState());
+  search(pq, um);
 }
