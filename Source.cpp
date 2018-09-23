@@ -81,9 +81,6 @@ int main()
         cout << "Cannot solve puzzle" << endl;
     }
 
-    else if (choice != 3)
-      cout << "Invalid input!" << endl << endl;
-
     else if (choice == 4)
     {
       puzzle = "012345678";
@@ -129,6 +126,9 @@ int main()
         cout << averageCostH2[i] << endl;
       }
     }
+
+    else if (choice != 3)
+      cout << "Invalid input!" << endl << endl;
   }
 
   return 0;
