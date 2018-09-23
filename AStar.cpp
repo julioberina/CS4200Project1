@@ -48,15 +48,15 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
 
     for (Board& succ: puzzle.successors())
     {
-      if (vs.find(succ.getState()) == vs.end()) // if not visited
+      if (visited.find(succ.getState()) == visited.end()) // if not visited
         pq.push(succ);
     }
 
-    vs.insert(puzzle.getState());
+    visited.insert(puzzle.getState());
   }
 
   // Once puzzle is solved
-  vs.clear();
+  visited.clear();
   string optimalPath = puzzle.getState();
   string current = puzzle.getState();
 
@@ -100,15 +100,15 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
 
     for (Board& succ: puzzle.successors())
     {
-      if (vs.find(succ.getState()) == vs.end()) // if not visited
+      if (visited.find(succ.getState()) == visited.end()) // if not visited
         pq.push(succ);
     }
 
-    vs.insert(puzzle.getState());
+    visited.insert(puzzle.getState());
   }
 
   // Once puzzle is solved
-  vs.clear();
+  visited.clear();
   string optimalPath = puzzle.getState();
   string current = puzzle.getState();
 
