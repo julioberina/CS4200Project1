@@ -3,6 +3,8 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <random>
+#include <chrono>
 #include "AStar.hpp"
 using namespace std;
 
@@ -13,6 +15,7 @@ int main()
 {
   int choice = 0;
   string puzzle = "";
+  unsigned seed; // case 1
 
   cout << "Welcome to the 8-Puzzle Program!" << endl << endl;
   cout << "Please choose from the options below:" << endl << endl;
@@ -42,7 +45,19 @@ int main()
   switch (choice)
   {
     case 1:
-      cout << "You chose to generate a puzzle" << endl << endl;
+      puzzle = "012345678";
+      seed = chrono::system_clock::now().time_since_epoch().count();
+      shuffle(puzzle.begin(), puzzle.end(), default_random_engine(seed));
+      cout << "Puzzle: " << puzzle << endl;
+
+      if (isPuzzleSolvable(puzzle))
+      {
+        Board board(puzzle);
+        AStar astar;
+        astar.solveH1(board);
+        cout << endl << "---------------------------------------------------------------" << endl << endl;
+        astar.solveH2(board);
+      }
     break;
 
     case 2:
