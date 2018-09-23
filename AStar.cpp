@@ -25,7 +25,7 @@ void AStar::solveH2(Board& initial)
 }
 
 // Search methods
-void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um)
+void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& nodesAtDepth)
 {
   Board puzzle = pq.top();
 
@@ -38,12 +38,12 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
     pq.pop();
 
     try {
-      um[puzzle.getDepth()].push_back(puzzle);
+      nodesAtDepth[puzzle.getDepth()].push_back(puzzle);
     }
     catch (const out_of_range& oor) {
       vector<Board> vb;
       vb.push_back(puzzle);
-      um[puzzle.getDepth()] = vb;
+      nodesAtDepth[puzzle.getDepth()] = vb;
     }
 
     for (Board& succ: puzzle.successors())
@@ -63,7 +63,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
   // Loop for backtracking
   for (int d = puzzle.getDepth(); d >= 0; --d)
   {
-    for (Board& board: um[d])
+    for (Board& board: nodesAtDepth[d])
     {
       if (board.getState() == current && board.predecessor() != "")
       {
@@ -77,7 +77,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
   cout << "d = " << puzzle.getDepth() << ", ";
 }
 
-void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um)
+void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& nodesAtDepth)
 {
   Board puzzle = pq.top();
 
@@ -90,12 +90,12 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
     pq.pop();
 
     try {
-      um[puzzle.getDepth()].push_back(puzzle);
+      nodesAtDepth[puzzle.getDepth()].push_back(puzzle);
     }
     catch (const out_of_range& oor) {
       vector<Board> vb;
       vb.push_back(puzzle);
-      um[puzzle.getDepth()] = vb;
+      nodesAtDepth[puzzle.getDepth()] = vb;
     }
 
     for (Board& succ: puzzle.successors())
@@ -115,7 +115,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
   // Loop for backtracking
   for (int d = puzzle.getDepth(); d >= 0; --d)
   {
-    for (Board& board: um[d])
+    for (Board& board: nodesAtDepth[d])
     {
       if (board.getState() == current && board.predecessor() != "")
       {

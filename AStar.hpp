@@ -28,8 +28,8 @@ class AStar
 private:
   int cost;
   unordered_set<string> visited;
-  void search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um);
-  void search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um);
+  void search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& nodesAtDepth);
+  void search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& nodesAtDepth);
 public:
   AStar() : visited() { cost = 0; }
   void solveH1(Board& initial); // Solve using Hamming
