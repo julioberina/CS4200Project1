@@ -56,6 +56,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
   }
 
   // Once puzzle is solved
+  vs.clear();
   string optimalPath = puzzle.getState();
   string current = puzzle.getState();
 
@@ -107,6 +108,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
   }
 
   // Once puzzle is solved
+  vs.clear();
   string optimalPath = puzzle.getState();
   string current = puzzle.getState();
 
