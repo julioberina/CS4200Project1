@@ -3,6 +3,7 @@
 void AStar::solveH1(Board& initial)
 {
   cost = 0;
+  solDepth = 0;
 
   priority_queue<Board, vector<Board>, compareH1> pq;
   unordered_map<int, vector<Board>> states;
@@ -15,6 +16,7 @@ void AStar::solveH1(Board& initial)
 void AStar::solveH2(Board& initial)
 {
   cost = 0;
+  solDepth = 0;
 
   priority_queue<Board, vector<Board>, compareH2> pq;
   unordered_map<int, vector<Board>> states;
@@ -73,6 +75,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
     }
   }
 
+  solDepth = puzzle.getDepth();
   cout << optimalPath << endl << endl;
   cout << "d = " << puzzle.getDepth() << ", ";
 }
@@ -125,6 +128,7 @@ void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
     }
   }
 
+  solDepth = puzzle.getDepth();
   cout << optimalPath << endl << endl;
   cout << "d = " << puzzle.getDepth() << ", ";
 }
