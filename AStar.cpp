@@ -10,7 +10,7 @@ void AStar::solveH1(Board& initial)
   pq.push(initial);
 
   if (search(pq, states))
-    cout << "H1 Done..." << endl;
+    cout << "search cost = " << cost << endl;
 }
 
 void AStar::solveH2(Board& initial)
@@ -23,7 +23,7 @@ void AStar::solveH2(Board& initial)
   pq.push(initial);
 
   if (search(pq, states))
-    cout << "H2 Done..." << endl;
+    cout << "search cost = " << cost << endl;
 }
 
 // Search methods
@@ -44,12 +44,27 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
     vb.push_back(puzzle);
     um[puzzle.getDepth()] = vb;
   }
-  // cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
-  // cout << puzzle << endl;
 
   if (puzzle.isGoal())
   {
-    cout << "Puzzle solved!" << endl;
+    string current = puzzle.getState();
+
+    // Loop for backtracking
+    for (int d = puzzle.getDepth(); d >= 0; --d)
+    {
+      for (Board& board: um[d])
+      {
+        if (board.getState() == current && board.predecessor() != "")
+        {
+          cout << current << " ===> " << endl;
+          current = board.predecessor();
+        }
+        else if (board.predecessor() == "")
+          cout << current << endl << endl;
+      }
+    }
+
+    cout << "d = " << puzzle.getDepth() << ", ";
     return true;
   }
 
@@ -76,12 +91,26 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
     vb.push_back(puzzle);
     um[puzzle.getDepth()] = vb;
   }
-  // cout << "d = " << puzzle.getDepth() << ", search cost = " << cost << endl;
-  // cout << puzzle << endl;
-
   if (puzzle.isGoal())
   {
-    cout << "Puzzle solved!" << endl;
+    string current = puzzle.getState();
+
+    // Loop for backtracking
+    for (int d = puzzle.getDepth(); d >= 0; --d)
+    {
+      for (Board& board: um[d])
+      {
+        if (board.getState() == current && board.predecessor() != "")
+        {
+          cout << current << " ===> " << endl;
+          current = board.predecessor();
+        }
+        else if (board.predecessor() == "")
+          cout << current << endl << endl;
+      }
+    }
+
+    cout << "d = " << puzzle.getDepth() << ", ";
     return true;
   }
 
