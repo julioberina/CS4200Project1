@@ -47,6 +47,7 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
 
   if (puzzle.isGoal())
   {
+    string optimalPath = puzzle.getState();
     string current = puzzle.getState();
 
     // Loop for backtracking
@@ -56,14 +57,13 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordere
       {
         if (board.getState() == current && board.predecessor() != "")
         {
-          cout << current << " ===> " << endl;
+          optimalPath = board.predecessor() + " ===> \n" + optimalPath;
           current = board.predecessor();
         }
-        else if (board.predecessor() == "")
-          cout << current << endl << endl;
       }
     }
 
+    cout << optimalPath << endl << endl;
     cout << "d = " << puzzle.getDepth() << ", ";
     return true;
   }
@@ -91,8 +91,10 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
     vb.push_back(puzzle);
     um[puzzle.getDepth()] = vb;
   }
+
   if (puzzle.isGoal())
   {
+    string optimalPath = puzzle.getState();
     string current = puzzle.getState();
 
     // Loop for backtracking
@@ -102,14 +104,13 @@ bool AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordere
       {
         if (board.getState() == current && board.predecessor() != "")
         {
-          cout << current << " ===> " << endl;
+          optimalPath = board.predecessor() + " ===> \n" + optimalPath;
           current = board.predecessor();
         }
-        else if (board.predecessor() == "")
-          cout << current << endl << endl;
       }
     }
 
+    cout << optimalPath << endl << endl;
     cout << "d = " << puzzle.getDepth() << ", ";
     return true;
   }
