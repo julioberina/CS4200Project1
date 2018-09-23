@@ -27,108 +27,102 @@ void AStar::solveH2(Board& initial)
 // Search methods
 void AStar::search(priority_queue<Board, vector<Board>, compareH1>& pq, unordered_map<int, vector<Board>>& um)
 {
-  if (pq.empty()) return;
-  ++cost;
-
   Board puzzle = pq.top();
-  pq.pop();
 
-  try {
-    um[puzzle.getDepth()].push_back(puzzle);
-  }
-  catch (const out_of_range& oor) {
-    vector<Board> vb;
-    vb.push_back(puzzle);
-    um[puzzle.getDepth()] = vb;
-  }
-
-  if (puzzle.isGoal())
+  while (!puzzle.isGoal())
   {
-    string optimalPath = puzzle.getState();
-    string current = puzzle.getState();
+    if (pq.empty()) return;
+    ++cost;
 
-    // Loop for backtracking
-    for (int d = puzzle.getDepth(); d >= 0; --d)
-    {
-      for (Board& board: um[d])
-      {
-        if (board.getState() == current && board.predecessor() != "")
-        {
-          optimalPath = board.predecessor() + " ===> \n" + optimalPath;
-          current = board.predecessor();
-        }
-      }
+    puzzle = pq.top();
+    pq.pop();
+
+    try {
+      um[puzzle.getDepth()].push_back(puzzle);
+    }
+    catch (const out_of_range& oor) {
+      vector<Board> vb;
+      vb.push_back(puzzle);
+      um[puzzle.getDepth()] = vb;
     }
 
-    cout << optimalPath << endl << endl;
-    cout << "d = " << puzzle.getDepth() << ", ";
-    return;
+    for (Board& succ: puzzle.successors())
+    {
+      if (vs.find(succ.getState()) == vs.end()) // if not visited
+        pq.push(succ);
+    }
+
+    vs.insert(puzzle.getState());
   }
 
-  cout << "d = " << puzzle.getDepth() << ", ";
-  cout << "cost = " << cost << ", ";
-  cout << "config = " << puzzle.getState() << endl;
+  // Once puzzle is solved
+  string optimalPath = puzzle.getState();
+  string current = puzzle.getState();
 
-  for (Board& succ: puzzle.successors())
+  // Loop for backtracking
+  for (int d = puzzle.getDepth(); d >= 0; --d)
   {
-    if (vs.find(succ.getState()) == vs.end()) // if not visited
-      pq.push(succ);
+    for (Board& board: um[d])
+    {
+      if (board.getState() == current && board.predecessor() != "")
+      {
+        optimalPath = board.predecessor() + " ===> \n" + optimalPath;
+        current = board.predecessor();
+      }
+    }
   }
 
-  vs.insert(puzzle.getState());
-  search(pq, um);
+  cout << optimalPath << endl << endl;
+  cout << "d = " << puzzle.getDepth() << ", ";
 }
 
 void AStar::search(priority_queue<Board, vector<Board>, compareH2>& pq, unordered_map<int, vector<Board>>& um)
 {
-  if (pq.empty()) return;
-  ++cost;
-
   Board puzzle = pq.top();
-  pq.pop();
 
-  try {
-    um[puzzle.getDepth()].push_back(puzzle);
-  }
-  catch (const out_of_range& oor) {
-    vector<Board> vb;
-    vb.push_back(puzzle);
-    um[puzzle.getDepth()] = vb;
-  }
-
-  if (puzzle.isGoal())
+  while (!puzzle.isGoal())
   {
-    string optimalPath = puzzle.getState();
-    string current = puzzle.getState();
+    if (pq.empty()) return;
+    ++cost;
 
-    // Loop for backtracking
-    for (int d = puzzle.getDepth(); d >= 0; --d)
-    {
-      for (Board& board: um[d])
-      {
-        if (board.getState() == current && board.predecessor() != "")
-        {
-          optimalPath = board.predecessor() + " ===> \n" + optimalPath;
-          current = board.predecessor();
-        }
-      }
+    puzzle = pq.top();
+    pq.pop();
+
+    try {
+      um[puzzle.getDepth()].push_back(puzzle);
+    }
+    catch (const out_of_range& oor) {
+      vector<Board> vb;
+      vb.push_back(puzzle);
+      um[puzzle.getDepth()] = vb;
     }
 
-    cout << optimalPath << endl << endl;
-    cout << "d = " << puzzle.getDepth() << ", ";
-    return;
+    for (Board& succ: puzzle.successors())
+    {
+      if (vs.find(succ.getState()) == vs.end()) // if not visited
+        pq.push(succ);
+    }
+
+    vs.insert(puzzle.getState());
   }
 
-  cout << "d = " << puzzle.getDepth() << ", ";
-  cout << "cost = " << cost << ", ";
-  cout << "config = " << puzzle.getState() << endl;
+  // Once puzzle is solved
+  string optimalPath = puzzle.getState();
+  string current = puzzle.getState();
 
-  for (Board& succ: puzzle.successors())
+  // Loop for backtracking
+  for (int d = puzzle.getDepth(); d >= 0; --d)
   {
-    if (vs.find(succ.getState()) == vs.end())
-      pq.push(succ);
+    for (Board& board: um[d])
+    {
+      if (board.getState() == current && board.predecessor() != "")
+      {
+        optimalPath = board.predecessor() + " ===> \n" + optimalPath;
+        current = board.predecessor();
+      }
+    }
   }
 
-  vs.insert(puzzle.getState());
-  search(pq, um);
+  cout << optimalPath << endl << endl;
+  cout << "d = " << puzzle.getDepth() << ", ";
 }
