@@ -20,12 +20,11 @@ int main()
   cout << "Welcome to the 8-Puzzle Program!" << endl << endl;
   cout << "Please choose from the options below:" << endl << endl;
 
-  cout << "1. Generate a random 8-puzzle" << endl;
-  cout << "2. Input an 8-puzzle" << endl;
-  cout << "3. Exit" << endl << endl;
-
-  while (choice < 1 || choice > 3)
+  while (choice != 3)
   {
+    cout << "1. Generate a random 8-puzzle" << endl;
+    cout << "2. Input an 8-puzzle" << endl;
+    cout << "3. Exit" << endl << endl;
     cout << "Enter input:  ";
 
     if (!(cin >> choice))
@@ -33,34 +32,32 @@ int main()
       cin.clear();
       cin.ignore(numeric_limits<int>::max(), '\n');
       cout << "Input must be an integer, ideally 1, 2, or 3" << endl << endl;
+      continue;
     }
-    else if (choice < 1 || choice > 3)
-      cout << "Input must be 1, 2, or 3" << endl << endl;
-  }
 
-  // Clear input stream
-  cin.clear();
-  cin.ignore(numeric_limits<int>::max(), '\n');
+    // Clear input stream
+    cin.clear();
+    cin.ignore(numeric_limits<int>::max(), '\n');
 
-  switch (choice)
-  {
-    case 1:
+    if (choice == 1)
+    {
       puzzle = "012345678";
       seed = chrono::system_clock::now().time_since_epoch().count();
-      shuffle(puzzle.begin(), puzzle.end(), default_random_engine(seed));
-      cout << "Puzzle: " << puzzle << endl;
 
-      if (isPuzzleSolvable(puzzle))
-      {
-        Board board(puzzle);
-        AStar astar;
-        astar.solveH1(board);
-        cout << endl << "---------------------------------------------------------------" << endl << endl;
-        astar.solveH2(board);
-      }
-    break;
+      do {
+        shuffle(puzzle.begin(), puzzle.end(), default_random_engine(seed));
+      } while (!isPuzzleSolvable(puzzle));
 
-    case 2:
+      Board board(puzzle);
+      AStar astar;
+      astar.solveH1(board);
+      cout << endl << "---------------------------------------------------------------" << endl << endl;
+      astar.solveH2(board);
+      cout << endl;
+    }
+
+    else if (choice == 2)
+    {
       cout << "You want to input a puzzle" << endl << endl;
 
       do {
@@ -78,15 +75,14 @@ int main()
         astar.solveH1(board);
         cout << endl << "---------------------------------------------------------------" << endl << endl;
         astar.solveH2(board);
+        cout << endl;
       }
       else
         cout << "Cannot solve puzzle" << endl;
-    break;
+    }
 
-    case 3:
-    default:
-      return 0;
-    break;
+    else if (choice != 3)
+      cout << "Invalid input!" << endl << endl;
   }
 
   return 0;
