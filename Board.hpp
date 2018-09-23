@@ -30,7 +30,6 @@ public:
   void setPredecessor(string& pre) { prevState = pre; }
   string predecessor() { return prevState; }
   bool isGoal() const { return currentState == goalState; }
-  friend ostream& operator<<(ostream& outs, const Board& other);
 };
 
 #endif
