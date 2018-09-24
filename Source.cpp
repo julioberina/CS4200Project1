@@ -83,34 +83,52 @@ int main()
 
     else if (choice == 4)
     {
+      AStar astar;
       puzzle = "012345678";
-      seed = chrono::system_clock::now().time_since_epoch().count();
-      int h1Depths[51];
-      int h2Depths[51];
-      unsigned long averageCostH1[51];
-      unsigned long averageCostH2[51];
+
+      int numberOfCases = 0;
+      int tempH1Depth = 0;
+      int tempH1Cost = 0;
+      int h1Depths[25];
+      int h2Depths[25];
+      unsigned long averageCostH1[25];
+      unsigned long averageCostH2[25];
 
       for (int i = 0; i < 51; ++i)
         h1Depths[i] = h2Depths[i] = averageCostH1[i] = averageCostH2[i] = 0;
 
-      for (int i = 0; i < 5000; ++i)
+      while(numberOfCases < 2000)
       {
+        seed = chrono::system_clock::now().time_since_epoch().count();
+
         do {
           shuffle(puzzle.begin(), puzzle.end(), default_random_engine(seed));
         } while (!isPuzzleSolvable(puzzle));
 
         Board board(puzzle);
-        AStar astar;
         astar.solveH1(board);
-        h1Depths[astar.getSolutionDepth()] += 1;
-        averageCostH1[astar.getSolutionDepth()] += astar.getSearchCost();
+        if (astar.getSolutionDepth() < 25)
+        {
+          tempH1Depth = astar.getSolutionDepth();
+          tempH1Cost = astar.getSearchCost();
+        }
+        else
+          continue;
+
         astar.solveH2(board);
-        h2Depths[astar.getSolutionDepth()] += 1;
-        averageCostH2[astar.getSolutionDepth()] += astar.getSearchCost();
+        if (astar.getSolutionDepth() < 25)
+        {
+          h1Depths[tempH1Depth] += 1;
+          averageCostH1[tempH1Depth] += tempH1Cost;
+          h2Depths[astar.getSolutionDepth()] += 1;
+          averageCostH2[astar.getSolutionDepth()] += astar.getSearchCost();
+        }
+        else
+          continue;
       }
 
       cout << "d\tH1 cost\tH2 cost" << endl;
-      for (int i = 0; i < 51; ++i)
+      for (int i = 0; i < 25; ++i)
       {
         if (h1Depths[i] == 0 && h2Depths[i] == 0)
           continue;
