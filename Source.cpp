@@ -7,6 +7,7 @@
 #include <chrono>
 #include "AStar.hpp"
 using namespace std;
+using namespace std::chrono;
 
 bool validatePuzzleInput(string puzzle);
 bool isPuzzleSolvable(string puzzle);
@@ -89,13 +90,20 @@ int main()
       int numberOfCases = 0;
       int tempH1Depth = 0;
       int tempH1Cost = 0;
+      unsigned long tempH1Time = 0;
       int h1Depths[25];
       int h2Depths[25];
       unsigned long averageCostH1[25];
       unsigned long averageCostH2[25];
+      unsigned long averageRTH1[25];
+      unsigned long averageRTH2[25];
+      chrono::high_resolution_clock::time_point t1, t2; // Average run time
 
       for (int i = 0; i < 51; ++i)
+      {
         h1Depths[i] = h2Depths[i] = averageCostH1[i] = averageCostH2[i] = 0;
+        averageRTH1[i] = averageRTH2[i] = 0;
+      }
 
       while(numberOfCases < 2000)
       {
@@ -106,28 +114,38 @@ int main()
         } while (!isPuzzleSolvable(puzzle));
 
         Board board(puzzle);
+        t1 = chrono::high_resolution_clock::now();
         astar.solveH1(board);
+        t2 = chrono::high_resolution_clock::now();
+
         if (astar.getSolutionDepth() < 25)
         {
           tempH1Depth = astar.getSolutionDepth();
           tempH1Cost = astar.getSearchCost();
+          tempH1Time = duration_cast<chrono::milliseconds>(t2 - t1).count();
         }
         else
           continue;
 
+        t1 = chrono::high_resolution_clock::now();
         astar.solveH2(board);
+        t2 = chrono::high_resolution_clock::now();
+
         if (astar.getSolutionDepth() < 25)
         {
           h1Depths[tempH1Depth] += 1;
           averageCostH1[tempH1Depth] += tempH1Cost;
+          averageRTH1[tempH1Depth] += tempH1Time;
           h2Depths[astar.getSolutionDepth()] += 1;
           averageCostH2[astar.getSolutionDepth()] += astar.getSearchCost();
+          averageRTH2[astar.getSolutionDepth()] += duration_cast<chrono::milliseconds>(t2 - t1).count();
+          ++numberOfCases;
         }
         else
           continue;
       }
 
-      cout << "d\tH1 cost\tH2 cost" << endl;
+      cout << "d\tH1 cost\tH1 Cases\tH1 Avg RT\tH2 cost\tH2 Cases\tH2 Avg RT" << endl;
       for (int i = 0; i < 25; ++i)
       {
         if (h1Depths[i] == 0 && h2Depths[i] == 0)
@@ -136,13 +154,21 @@ int main()
         cout << i << "\t";
 
         if (h1Depths[i] != 0)
+        {
           averageCostH1[i] = averageCostH1[i] / h1Depths[i];
-        cout << averageCostH1[i] << "\t";
+          averageRTH1[i] = averageRTH1[i] / h1Depths[i];
+        }
+        cout << averageCostH1[i] << "\t" << h1Depths[i] << "\t" << averageRTH1[i] << "\t";
 
         if (h2Depths[i] != 0)
+        {
           averageCostH2[i] = averageCostH2[i] / h2Depths[i];
-        cout << averageCostH2[i] << endl;
+          averageRTH2[i] = averageRTH2[i] / h2Depths[i];
+        }
+        cout << averageCostH2[i] << "\t" << h2Depths[i] << "\t" << averageRTH2[i] << endl;
       }
+
+      cout << endl << "Data from 2000 different puzzles" << endl << endl;
     }
 
     else if (choice != 3)
